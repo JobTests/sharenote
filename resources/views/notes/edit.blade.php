@@ -61,7 +61,7 @@
             </div>
             <div class="col-lg-8 col-md7">
                 @php  $noteFilesTotal = $note->files? $note->files->count() : 0 @endphp
-                <form action="{{ route('notes.update',$note) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('notes.update',$note) }}" method="POST" enctype="multipart/form-data" name="noteFormSubmit">
                     @csrf
                     @method("PUT")
                     <div class="form-group">
@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label>Only JPG, PNG, PDF and DOCX files are allowed. Maximum upload file size:2 MB. Maximum Files Count: {{ 10 - $noteFilesTotal }}</label>
-                        <input id="filepond" type="file" name="filepond[]" multiple/>
+                        <input id="filepond" type="file" name="filepond" />
                     </div>
 
                     @if($noteFilesTotal)
@@ -125,7 +125,7 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <button class="btn  btn-outline-dark btn-block">{{ __('Update Note') }}</button>
+                        <button type="submit" class="btn  btn-outline-dark btn-block">{{ __('Update Note') }}</button>
                     </div>
                 </form>
                 <form action="{{ route('notes.destroy', $note) }}" method="post" class="d-inline">
@@ -147,6 +147,21 @@
 @endsection
 @section('scripts')
     <script>
+        let form = document.forms['noteFormSubmit'];
+        form.onsubmit = function (event){
+            event.preventDefault();
+            var inputs = form.elements;
+            for (i = 0; i < inputs.length; i++) {
+                if (inputs[i].nodeName === "INPUT" &&  inputs[i].type === "hidden" && inputs[i].name === "filepond" && inputs[i].value) {
+                    // Update text input
+                    console.log(inputs[i]);
+                    inputs[i].setAttribute('name', "filepond[]");
+
+                }
+            }
+            return form.submit();
+        }
+
         function removeFile(action){
             let form = document.getElementById('removeFile');
             form.setAttribute('action', action);
@@ -159,13 +174,14 @@
         let serverResponse = '';
         FilePond.setOptions({
             allowMultiple: true,
-            maxParallelUploads:1,
+            /*maxParallelUploads:1,*/
             maxFiles: {{ 10 - $noteFilesTotal }},
             server: {
                 process: {
                     url: '/upload',
                     onerror: function (response) {
-                        serverResponse = (JSON.parse(response)).errors.filepond[0];
+                        //console.log(JSON.parse(response))
+                        serverResponse = (JSON.parse(response)).errors['filepond'][0];
                     }
                 },
                 revert: {
@@ -181,7 +197,7 @@
                 // replaces the error on the FilePond error label
                 return serverResponse;
             }
-        });
+        });//filepond--data
     </script>
 @endsection
 

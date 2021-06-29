@@ -12,7 +12,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-                <form action="{{ route('notes.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('notes.store') }}" method="POST" enctype="multipart/form-data" name="noteFormSubmit">
                     @csrf
 
                     <div class="form-group">
@@ -42,7 +42,7 @@
 
                     <div class="form-group">
                         <label>Only JPG, PNG, PDF and DOCX files are allowed. Maximum upload file size:2 MB. Maximum Files Count: 10</label>
-                        <input id="filepond" type="file" name="filepond[]" multiple/>
+                        <input id="filepond" type="file" name="filepond"/>
                     </div>
 
 
@@ -60,6 +60,21 @@
 @endsection
 @section('scripts')
     <script>
+
+        let form = document.forms['noteFormSubmit'];
+        form.onsubmit = function (event){
+            event.preventDefault();
+            var inputs = form.elements;
+            for (i = 0; i < inputs.length; i++) {
+                if (inputs[i].nodeName === "INPUT" &&  inputs[i].type === "hidden" && inputs[i].name === "filepond" && inputs[i].value) {
+                    // Update text input
+                    console.log(inputs[i]);
+                    inputs[i].setAttribute('name', "filepond[]");
+
+                }
+            }
+            return form.submit();
+        }
         function removeFile(action){
             let form = document.getElementById('removeFile');
             form.setAttribute('action', action);

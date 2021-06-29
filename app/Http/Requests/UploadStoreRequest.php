@@ -24,7 +24,8 @@ class UploadStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'filepond.*'=> ['required','mimes:jpg,png,pdf,docx','max:2048'],
+            'filepond'=> ['required','mimes:jpg,png,pdf,docx','max:2048'],
+            //'filepond.*'=> ['required','mimes:jpg,png,pdf,docx','max:2048'],
         ];
     }
 }
