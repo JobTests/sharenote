@@ -27,24 +27,7 @@ class UploadController extends Controller
         ]);
         return response($folder, 200)
             ->header('Content-Type', 'text/plain');
-        /*foreach($files as $file){
-            $folder = uniqid() . '-' . now()->timestamp;
-            $filename = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-
-            $file->storeAs('tmp/' . $folder, $filename);
-
-            TemporaryFile::create([
-                'folder'    => $folder,
-                'filename'  => $filename,
-                'extension' => $extension,
-            ]);
-            return response($folder, 200)
-                ->header('Content-Type', 'text/plain');
-        }*/
-
-
-
+        
     }
     public function  destroy(Request $request)
     {
