@@ -38,7 +38,14 @@ class NoteController extends Controller
         $notes = Note::where( 'user_id',auth()->user()->id )->latest()->withCount('files')->paginate(20);
         return view('notes.index', compact(['notes']));
     }
+    public function shareWithMe()
+    {
+        $notes = Note::whereHas( 'usersHasAccess',function($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->latest()->with('user')->withCount('files')->paginate(20);
 
+        return view('notes.share-with-me', compact(['notes']));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -57,8 +64,13 @@ class NoteController extends Controller
     public function store(NoteStoreRequest $request): RedirectResponse
     {
         $note = Note::create($request->validated());
+        if ($request->filepond) {
+            foreach ($request->filepond as $temporaryFileFolder) {
+                $this->storeFile($temporaryFileFolder, $note);
+            }
+        }
 
-        return redirect()->route('notes.edit',$note)->with([
+        return redirect()->route('notes.edit', $note)->with([
             'status' => __('The information has been successfully saved.'),
         ]);
     }
@@ -73,7 +85,7 @@ class NoteController extends Controller
     public function show(Note $note)
     {
         $this->authorize('view', $note);
-
+        $note->load('files');
         return view('notes.show', compact(['note']));
     }
 

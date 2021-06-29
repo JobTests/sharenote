@@ -30,7 +30,21 @@ class NotePolicy
      */
     public function view(?User $user, Note $note): bool
     {
-        return $note->public === 1 || $user->id === $note->user_id;
+        $valid = false;
+
+        if($note->private === 0 ){
+            $valid = true;
+        } else {
+            if($user){
+                $usersHasAccessIds = $note->usersHasAccess->count() > 0 ? $note->usersHasAccess->pluck('id')->toArray() : [];
+                if(  ($user->id == $note->user_id )  || ($user && in_array($user->id, $usersHasAccessIds)) ){
+                    $valid = true;
+                }
+            }
+
+
+        }
+        return $valid;
     }
 
     /**

@@ -38,10 +38,5 @@ class NoteUpdateRequest extends FormRequest
         ];
     }
 
-    public function validated()
-    {
-        $data = parent::validated();
 
-        return $data;
-    }
 }

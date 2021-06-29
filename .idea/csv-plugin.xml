@@ -430,6 +430,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\resources\views\notes\share-with-me.blade.php">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\resources\views\notes\show.blade.php">
           <value>
             <Attribute>

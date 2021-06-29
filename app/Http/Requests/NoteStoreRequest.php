@@ -11,11 +11,13 @@ class NoteStoreRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    protected function prepareForValidation()
     {
-        return true;
-    }
 
+        $this->merge([
+            'private' => $this->has('private'),
+        ]);
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,15 +25,18 @@ class NoteStoreRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'description' => ['required','max:2000','string']
+            'name'        => ['required','max:191'],
+            'description' => ['required','max:2000','string'],
+            'filepond.*'  => ['nullable','exists:temporary_files,folder'],
+            'private'     => ['boolean']
         ];
     }
-
     public function validated()
     {
         $data = parent::validated();
-        $data['user_id'] = $this->user()->id;
+        $data['user_id'] = auth()->user()->id;
         return $data;
     }
 }

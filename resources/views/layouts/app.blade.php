@@ -64,6 +64,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('notes.index') }}">{{ __('My Notes') }}</a>
                                     <a class="dropdown-item" href="{{ route('notes.create') }}">{{ __('Add Note') }}</a>
+                                    <a class="dropdown-item" href="{{ route('notes.share-with-me') }}">{{ __('Shared With Me') }}</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -117,5 +118,11 @@
             $.iaoAlert({ msg: message, type: "success", mode: "dark", alertTime: "10000" });
         </script>
     @endif
+    <script>
+        function search(){
+            let q = document.getElementById('intro-keywords').value ;
+            if(q.length > 2) location.href = '/?q='+q;
+        }
+    </script>
 </body>
 </html>

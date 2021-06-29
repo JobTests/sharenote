@@ -22,3 +22,15 @@ Choose Laravel from the list, copy the following details, and paste them to your
     
     QUEUE_CONNECTION=database
     php artisan queue:work 
+## social login
+   
+    to .env
+    FACEBOOK_CLIENT_ID=202052323728814
+    FACEBOOK_CLIENT_SECRET=f214a3180a8156b1595509c008d8557d
+
+    to /config/service.php
+    'facebook' => [
+    'client_id' => env('FACEBOOK_CLIENT_ID'),
+    'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+    'redirect' => 'https://yoursite.com/login/facebook/callback',
+    ],

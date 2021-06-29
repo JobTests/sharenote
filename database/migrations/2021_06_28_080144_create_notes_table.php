@@ -20,7 +20,10 @@ class CreateNotesTable extends Migration
             $table->text('description');
             $table->boolean('private')->default(0);
             $table->timestamps();
+
+
         });
+        DB::statement('ALTER TABLE notes ADD FULLTEXT search(name, description)');
     }
 
     /**

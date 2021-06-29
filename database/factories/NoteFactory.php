@@ -18,6 +18,9 @@ $factory->define(Note::class, function (Faker $faker) {
 });
 
 $factory->afterCreating(Note::class, function ($note, $faker) {
-    $users = User::where('id', '!=', $note->user_id)->inRandomOrder()->limit(3)->get();
-    $note->usersHasAccess()->attach($users);
+    if($note->private){
+        $users = User::where('id', '!=', $note->user_id)->inRandomOrder()->limit(3)->get();
+        $note->usersHasAccess()->attach($users);
+    }
+
 });

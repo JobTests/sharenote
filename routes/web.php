@@ -28,8 +28,10 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::post('upload', 'UploadController@store');
 Route::delete('upload', 'UploadController@destroy');
 
+Route::get('share-with-me', 'NoteController@shareWithMe')->name('notes.share-with-me');
 Route::post('notes/{note}/share', 'NoteController@share')->name('notes.share');
 Route::delete('notes/{note}/remove-access', 'NoteController@removeAccess')->name('notes.remove-access');
+
 Route::resource('files', 'FileController');
 Route::resource('notes', 'NoteController');
 

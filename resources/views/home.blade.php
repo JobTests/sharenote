@@ -27,12 +27,12 @@
                         <!-- Search Field -->
                         <div class="intro-search-field with-label">
                             <label for="intro-keywords" class="field-title ripple-effect">What note are you looking for?</label>
-                            <input id="intro-keywords" type="text" placeholder="Note Title or Keywords">
+                            <input id="intro-keywords" type="text" placeholder="Note Title or Keywords, at least 3 letters"  value="{{ request()->query('q') }}">
                         </div>
 
                         <!-- Button -->
                         <div class="intro-search-button">
-                            <button class="button ripple-effect" onclick="window.location.href='jobs-list-layout-full-page-map.html'">Search</button>
+                            <button class="button ripple-effect" onclick="search()">Search</button>
                         </div>
                     </div>
                 </div>
